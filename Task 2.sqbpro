@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Adesuwa/Desktop/final assessment - databases/Task 3/Task 2.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3436"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Driver" custom_title="0" dock_id="1" table="4,6:mainDriver"/><dock_state state="000000ff00000000fd00000001000000020000077400000387fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000007740000012300ffffff000007740000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Customer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="63"/><column index="2" value="78"/><column index="3" value="78"/><column index="4" value="215"/><column index="5" value="111"/><column index="6" value="96"/><column index="7" value="187"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Driver" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="63"/><column index="2" value="88"/><column index="3" value="88"/><column index="4" value="223"/><column index="5" value="111"/><column index="6" value="106"/><column index="7" value="176"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Journey" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="74"/><column index="2" value="231"/><column index="3" value="231"/><column index="4" value="135"/><column index="5" value="47"/><column index="6" value="63"/><column index="7" value="64"/><column index="8" value="77"/><column index="9" value="87"/><column index="10" value="176"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Payment" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="79"/><column index="2" value="75"/><column index="3" value="89"/><column index="4" value="81"/><column index="5" value="109"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Rating" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="65"/><column index="2" value="75"/><column index="3" value="66"/><column index="4" value="101"/><column index="5" value="45"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Rating_Type" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="2" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Vehicle" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="176"/><column index="2" value="91"/><column index="3" value="135"/><column index="4" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="40"/><column index="2" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Create">/* ---Vehicle Table---*/
+CREATE TABLE IF NOT EXISTS Vehicle
+(
+Vehicle_Registration_Number TEXT NOT NULL,
+Vehicle_Colour TEXT NOT NULL,
+Vehicle_Make TEXT NOT NULL,
+Driver_ID TEXT NOT NULL,
+ PRIMARY KEY(Vehicle_Registration_Number),
+ FOREIGN KEY (Driver_ID) REFERENCES Driver(Driver_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/* ---Payment Table---*/
+CREATE TABLE IF NOT EXISTS Payment
+(
+Payment_ID TEXT NOT NULL,
+Journey_ID TEXT NOT NULL,
+Journey_Time TEXT NOT NULL,
+Cost_Of_Trip DOUBLE(2) NOT NULL,
+Payment_Method TEXT NOT NULL,
+ PRIMARY KEY(Payment_ID),
+ FOREIGN KEY (Journey_ID) REFERENCES Journey(Journey_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*---Rating Type Table---*/
+CREATE TABLE IF NOT EXISTS Rating_Type
+(
+Rating_Type_ID TEXT NOT NULL,
+Rating_Type TEXT NOT NULL,
+PRIMARY KEY (Rating_Type_ID)
+);
+
+/*---Rating Table---*/
+CREATE TABLE IF NOT EXISTS Rating
+(
+Rating_ID TEXT NOT NULL,
+Journey_ID INT NOT NULL,
+User_Role TEXT NOT NULL,
+Rating_Type_ID TEXT NOT NULL,
+Rating DOUBLE(2) NOT NULL,
+PRIMARY KEY (Rating_ID)
+FOREIGN KEY (Journey_ID) REFERENCES Journey(Journey_ID) ON DELETE CASCADE ON UPDATE CASCADE
+FOREIGN KEY (Rating_Type_ID) REFERENCES Rating_Type(Rating_Type_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);</sql><sql name="Insert">INSERT OR IGNORE INTO Vehicle(Vehicle_Registration_Number, Vehicle_Colour, Vehicle_Make, Driver_ID)
+VALUES
+('LD72 YKM', 'White', 'Ford Focus', 'DRV001'),
+('BX21 HFT', 'Black', 'Volkswagen Golf', 'DRV001'),
+('KM70 RZE', 'Grey', 'BMW 3 Series', 'DRV002'),
+('YP23 LJD', 'Blue', 'Audi A3', 'DRV003'),
+('GF19 VCU', 'Red', 'Vauxhall Corsa', 'DRV004'),
+('SD22 PMX', 'Silver', 'Mercedes A-Class', 'DRV004'),
+('WN71 KHG', 'White', 'Toyota Yaris', 'DRV004'),
+('CL20 BVO', 'Black', 'Honda Civic', 'DRV005'),
+('RJ68 UST', 'Blue', 'Nissan Qashqai', 'DRV006'),
+('MT22 HLR', 'Grey', 'Kia Sportage', 'DRV007'),
+('AV21 JDX', 'Silver', 'Hyundai Tucson', 'DRV008'),
+('FU70 RNL', 'Red', 'Renault Clio', 'DRV008'),
+('OE19 YTB', 'White', 'Peugeot 208', 'DRV009'),
+('KR23 ZMU', 'Black', 'Tesla Model 3', 'DRV009'),
+('HG72 BKA', 'Blue', 'Skoda Octavia', 'DRV010');
+
+INSERT OR IGNORE INTO Rating_Type(Rating_Type_ID, Rating_Type)
+VALUES
+('001', 'Punctuality'),
+('002', 'Behaviour'),
+('003', 'Vehicle Cleanliness'),
+('004', 'Driving Skill');
+
+INSERT OR IGNORE INTO Payment(Payment_ID, Journey_ID, Journey_Time, Cost_Of_Trip, Payment_Method)
+VALUES
+('PAY001', 1, '00:22:14', 52.00, 'Cash'),
+('PAY002', 2, '00:27:05', 58.50, 'Card'),
+('PAY003', 3, '00:24:33', 57.00, 'Cash'),
+('PAY004', 4, '00:20:41', 48.50, 'Card'),
+('PAY005', 5, '00:26:22', 62.00, 'Card'),
+('PAY006', 6, '00:21:17', 48.00, 'Cash'),
+('PAY007', 7, '00:25:54', 57.50, 'Cash'),
+('PAY008', 8, '00:28:10', 63.00, 'Card'),
+('PAY009', 9, '00:29:38', 67.00, 'Card'),
+('PAY010', 10, '00:26:45', 58.50, 'Cash'),
+('PAY011', 11, '00:23:12', 48.50, 'Card'),
+('PAY012', 12, '00:17:46', 44.00, 'Cash'),
+('PAY013', 13, '00:30:44', 68.00, 'Card'),
+('PAY014', 14, '00:25:33', 53.50, 'Cash'),
+('PAY015', 15, '00:22:18', 51.00, 'Card'),
+('PAY016', 16, '00:41:27', 78.00, 'Cash'),
+('PAY017', 17, '00:19:50', 48.00, 'Card'),
+('PAY018', 18, '00:27:44', 56.50, 'Cash'),
+('PAY019', 19, '00:31:36', 62.00, 'Card'),
+('PAY020', 20, '00:33:51', 68.00, 'Card'),
+('PAY021', 21, '00:38:12', 73.00, 'Cash'),
+('PAY022', 22, '00:44:20', 84.00, 'Card'),
+('PAY023', 23, '00:46:01', 93.00, 'Cash'),
+('PAY024', 24, '00:29:10', 53.50, 'Card'),
+('PAY025', 25, '00:34:11', 67.00, 'Card'),
+('PAY026', 26, '00:27:18', 63.50, 'Cash'),
+('PAY027', 27, '00:33:45', 69.00, 'Cash'),
+('PAY028', 28, '00:21:59', 47.50, 'Card'),
+('PAY029', 29, '00:36:04', 73.50, 'Cash'),
+('PAY030', 30, '00:33:20', 68.50, 'Card'),
+('PAY031', 31, '00:18:44', 48.00, 'Card'),
+('PAY032', 32, '00:27:09', 52.50, 'Card'),
+('PAY033', 33, '00:32:44', 63.00, 'Cash'),
+('PAY034', 34, '00:46:58', 84.50, 'Cash'),
+('PAY035', 35, '00:42:30', 88.00, 'Card'),
+('PAY036', 36, '00:38:22', 72.50, 'Card'),
+('PAY037', 37, '00:35:48', 68.00, 'Cash'),
+('PAY038', 38, '00:29:40', 57.00, 'Card'),
+('PAY039', 39, '00:32:11', 67.50, 'Cash'),
+('PAY040', 40, '00:49:52', 103.00, 'Card');
+
+INSERT OR IGNORE INTO Rating(Rating_ID, Journey_ID, User_Role, Rating_Type_ID, Rating)
+VALUES
+/*-- Journey 1 --*/
+('RAT001',1,'Driver','001',4.8),
+('RAT002',1,'Driver','002',4.7),
+('RAT003',1,'Customer','002',4.9),
+('RAT004',1,'Customer','003',5.0),
+('RAT005',1,'Customer','004',4.8),
+
+/*-- Journey 2 --*/
+('RAT006',2,'Driver','001',5.0),
+('RAT007',2,'Driver','002',5.0),
+('RAT008',2,'Customer','002',4.8),
+('RAT009',2,'Customer','003',4.9),
+('RAT010',2,'Customer','004',4.7),
+
+/*-- Journey 3 --*/
+('RAT011',3,'Driver','001',5.0),
+('RAT012',3,'Driver','002',5.0),
+('RAT013',3,'Customer','002',4.7),
+('RAT014',3,'Customer','003',4.8),
+('RAT015',3,'Customer','004',4.6),
+
+/*-- Journey 4 --*/
+('RAT016',4,'Driver','001',5.0),
+('RAT017',4,'Driver','002',5.0),
+('RAT018',4,'Customer','002',4.9),
+('RAT019',4,'Customer','003',5.0),
+('RAT020',4,'Customer','004',4.8),
+
+/*-- Journey 5 --*/
+('RAT021',5,'Driver','001',5.0),
+('RAT022',5,'Driver','002',5.0),
+('RAT023',5,'Customer','002',4.9),
+('RAT024',5,'Customer','003',4.9),
+('RAT025',5,'Customer','004',4.8),
+
+/*-- Journey 6 --*/
+('RAT026',6,'Driver','001',5.0),
+('RAT027',6,'Driver','002',5.0),
+('RAT028',6,'Customer','002',4.8),
+('RAT029',6,'Customer','003',4.8),
+('RAT030',6,'Customer','004',4.8),
+
+/*-- Journey 7 --*/
+('RAT031',7,'Driver','001',5.0),
+('RAT032',7,'Driver','002',5.0),
+('RAT033',7,'Customer','002',4.5),
+('RAT034',7,'Customer','003',4.6),
+('RAT035',7,'Customer','004',4.4),
+
+/*-- Journey 8 --*/
+('RAT036',8,'Driver','001',5.0),
+('RAT037',8,'Driver','002',5.0),
+('RAT038',8,'Customer','002',4.7),
+('RAT039',8,'Customer','003',4.8),
+('RAT040',8,'Customer','004',4.6),
+
+/*-- Journey 9 --*/
+('RAT041',9,'Driver','001',5.0),
+('RAT042',9,'Driver','002',5.0),
+('RAT043',9,'Customer','002',4.8),
+('RAT044',9,'Customer','003',4.9),
+('RAT045',9,'Customer','004',4.7),
+
+/*-- Journey 10 --*/
+('RAT046',10,'Driver','001',5.0),
+('RAT047',10,'Driver','002',5.0),
+('RAT048',10,'Customer','002',4.6),
+('RAT049',10,'Customer','003',4.7),
+('RAT050',10,'Customer','004',4.5),
+
+/*-- Journey 11 --*/
+('RAT051',11,'Driver','001',5.0),
+('RAT052',11,'Driver','002',5.0),
+('RAT053',11,'Customer','002',4.7),
+('RAT054',11,'Customer','003',4.8),
+('RAT055',11,'Customer','004',4.6),
+
+/*-- Journey 12 --*/
+('RAT056',12,'Driver','001',4.0),
+('RAT057',12,'Driver','002',4.0),
+('RAT058',12,'Customer','002',4.5),
+('RAT059',12,'Customer','003',4.5),
+('RAT060',12,'Customer','004',4.4),
+
+/*-- Journey 13 --*/
+('RAT061',13,'Driver','001',4.5),
+('RAT062',13,'Driver','002',4.5),
+('RAT063',13,'Customer','002',4.7),
+('RAT064',13,'Customer','003',4.8),
+('RAT065',13,'Customer','004',4.6),
+
+/*-- Journey 14 --*/
+('RAT066',14,'Driver','001',4.9),
+('RAT067',14,'Driver','002',4.9),
+('RAT068',14,'Customer','002',5.0),
+('RAT069',14,'Customer','003',5.0),
+('RAT070',14,'Customer','004',5.0),
+
+/*-- Journey 15 --*/
+('RAT071',15,'Driver','001',5.0),
+('RAT072',15,'Driver','002',5.0),
+('RAT073',15,'Customer','002',4.9),
+('RAT074',15,'Customer','003',4.9),
+('RAT075',15,'Customer','004',4.8),
+
+/*-- Journey 16 --*/
+('RAT076',16,'Driver','001',4.8),
+('RAT077',16,'Driver','002',4.8),
+('RAT078',16,'Customer','002',4.6),
+('RAT079',16,'Customer','003',4.7),
+('RAT080',16,'Customer','004',4.5),
+
+/*-- Journey 17 --*/
+('RAT081',17,'Driver','001',5.0),
+('RAT082',17,'Driver','002',5.0),
+('RAT083',17,'Customer','002',4.8),
+('RAT084',17,'Customer','003',4.9),
+('RAT085',17,'Customer','004',4.7),
+
+/*-- Journey 18 --*/
+('RAT086',18,'Driver','001',5.0),
+('RAT087',18,'Driver','002',5.0),
+('RAT088',18,'Customer','002',4.9),
+('RAT089',18,'Customer','003',5.0),
+('RAT090',18,'Customer','004',4.8),
+
+/*-- Journey 19 --*/
+('RAT091',19,'Driver','001',5.0),
+('RAT092',19,'Driver','002',5.0),
+('RAT093',19,'Customer','002',4.7),
+('RAT094',19,'Customer','003',4.8),
+('RAT095',19,'Customer','004',4.6),
+
+/*-- Journey 20 --*/
+('RAT096',20,'Driver','001',5.0),
+('RAT097',20,'Driver','002',5.0),
+('RAT098',20,'Customer','002',4.8),
+('RAT099',20,'Customer','003',4.9),
+('RAT100',20,'Customer','004',4.7),
+
+/*-- Journey 21 --*/
+('RAT101',21,'Driver','001',4.5),
+('RAT102',21,'Driver','002',4.5),
+('RAT103',21,'Customer','002',4.6),
+('RAT104',21,'Customer','003',4.7),
+('RAT105',21,'Customer','004',4.5),
+
+/*-- Journey 22 --*/
+('RAT106',22,'Driver','001',5.0),
+('RAT107',22,'Driver','002',5.0),
+('RAT108',22,'Customer','002',4.5),
+('RAT109',22,'Customer','003',4.6),
+('RAT110',22,'Customer','004',4.4),
+
+/*-- Journey 23 --*/
+('RAT111',23,'Driver','001',5.0),
+('RAT112',23,'Driver','002',5.0),
+('RAT113',23,'Customer','002',4.8),
+('RAT114',23,'Customer','003',4.9),
+('RAT115',23,'Customer','004',4.7),
+
+/*-- Journey 24 --*/
+('RAT116',24,'Driver','001',5.0),
+('RAT117',24,'Driver','002',5.0),
+('RAT118',24,'Customer','002',4.7),
+('RAT119',24,'Customer','003',4.8),
+('RAT120',24,'Customer','004',4.6),
+
+/*-- Journey 25 --*/
+('RAT121',25,'Driver','001',4.5),
+('RAT122',25,'Driver','002',4.5),
+('RAT123',25,'Customer','002',4.5),
+('RAT124',25,'Customer','003',4.6),
+('RAT125',25,'Customer','004',4.4),
+
+/*-- Journey 26 --*/
+('RAT126',26,'Driver','001',4.0),
+('RAT127',26,'Driver','002',4.0),
+('RAT128',26,'Customer','002',4.4),
+('RAT129',26,'Customer','003',4.4),
+('RAT130',26,'Customer','004',4.4),
+
+/*-- Journey 27 --*/
+('RAT131',27,'Driver','001',4.8),
+('RAT132',27,'Driver','002',4.8),
+('RAT133',27,'Customer','002',4.6),
+('RAT134',27,'Customer','003',4.7),
+('RAT135',27,'Customer','004',4.5),
+
+/*-- Journey 28 --*/
+('RAT136',28,'Driver','001',5.0),
+('RAT137',28,'Driver','002',5.0),
+('RAT138',28,'Customer','002',4.7),
+('RAT139',28,'Customer','003',4.8),
+('RAT140',28,'Customer','004',4.6),
+
+/*-- Journey 29 --*/
+('RAT141',29,'Driver','001',4.9),
+('RAT142',29,'Driver','002',4.9),
+('RAT143',29,'Customer','002',4.8),
+('RAT144',29,'Customer','003',4.9),
+('RAT145',29,'Customer','004',4.7),
+
+/*-- Journey 30 --*/
+('RAT146',30,'Driver','001',5.0),
+('RAT147',30,'Driver','002',5.0),
+('RAT148',30,'Customer','002',4.7),
+('RAT149',30,'Customer','003',4.8),
+('RAT150',30,'Customer','004',4.6),
+
+/*-- Journey 31 --*/
+('RAT151',31,'Driver','001',4.0),
+('RAT152',31,'Driver','002',4.0),
+('RAT153',31,'Customer','002',4.4),
+('RAT154',31,'Customer','003',4.4),
+('RAT155',31,'Customer','004',4.4),
+
+/*-- Journey 32 --*/
+('RAT156',32,'Driver','001',4.7),
+('RAT157',32,'Driver','002',4.7),
+('RAT158',32,'Customer','002',4.5),
+('RAT159',32,'Customer','003',4.6),
+('RAT160',32,'Customer','004',4.4),
+
+/*-- Journey 33 --*/
+('RAT161',33,'Driver','001',5.0),
+('RAT162',33,'Driver','002',5.0),
+('RAT163',33,'Customer','002',4.6),
+('RAT164',33,'Customer','003',4.7),
+('RAT165',33,'Customer','004',4.5),
+
+/*-- Journey 34 --*/
+('RAT166',34,'Driver','001',4.6),
+('RAT167',34,'Driver','002',4.6),
+('RAT168',34,'Customer','002',4.8),
+('RAT169',34,'Customer','003',4.9),
+('RAT170',34,'Customer','004',4.7),
+
+/*-- Journey 35 --*/
+('RAT171',35,'Driver','001',5.0),
+('RAT172',35,'Driver','002',5.0),
+('RAT173',35,'Customer','002',4.9),
+('RAT174',35,'Customer','003',5.0),
+('RAT175',35,'Customer','004',4.8),
+
+/*-- Journey 36 --*/
+('RAT176',36,'Driver','001',4.5),
+('RAT177',36,'Driver','002',4.5),
+('RAT178',36,'Customer','002',4.6),
+('RAT179',36,'Customer','003',4.7),
+('RAT180',36,'Customer','004',4.5),
+
+/*-- Journey 37 --*/
+('RAT181',37,'Driver','001',4.8),
+('RAT182',37,'Driver','002',4.8),
+('RAT183',37,'Customer','002',4.7),
+('RAT184',37,'Customer','003',4.8),
+('RAT185',37,'Customer','004',4.6),
+
+/*-- Journey 38 --*/
+('RAT186',38,'Driver','001',5.0),
+('RAT187',38,'Driver','002',5.0),
+('RAT188',38,'Customer','002',4.8),
+('RAT189',38,'Customer','003',4.9),
+('RAT190',38,'Customer','004',4.7),
+
+/*-- Journey 39 --*/
+('RAT191',39,'Driver','001',4.9),
+('RAT192',39,'Driver','002',4.9),
+('RAT193',39,'Customer','002',4.9),
+('RAT194',39,'Customer','003',4.9),
+('RAT195',39,'Customer','004',4.9),
+
+/*-- Journey 40 --*/
+('RAT196',40,'Driver','001',5.0),
+('RAT197',40,'Driver','002',5.0),
+('RAT198',40,'Customer','002',5.0),
+('RAT199',40,'Customer','003',5.0),
+('RAT200',40,'Customer','004',5.0);</sql><sql name="Update*">/*---Update Journey Registration Details---*/
+UPDATE Journey SET Vehicle_Registration_Number = 'LD72 YKM' WHERE Journey_ID = 1;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 2;
+UPDATE Journey SET Vehicle_Registration_Number = 'GF19 VCU' WHERE Journey_ID = 3;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 4;
+UPDATE Journey SET Vehicle_Registration_Number = 'CL20 BVO' WHERE Journey_ID = 5;
+UPDATE Journey SET Vehicle_Registration_Number = 'CL20 BVO' WHERE Journey_ID = 6;
+UPDATE Journey SET Vehicle_Registration_Number = 'MT22 HLR' WHERE Journey_ID = 7;
+UPDATE Journey SET Vehicle_Registration_Number = 'MT22 HLR' WHERE Journey_ID = 8;
+UPDATE Journey SET Vehicle_Registration_Number = 'OE19 YTB' WHERE Journey_ID = 9;
+UPDATE Journey SET Vehicle_Registration_Number = 'HG72 BKA' WHERE Journey_ID = 10;
+UPDATE Journey SET Vehicle_Registration_Number = 'HG72 BKA' WHERE Journey_ID = 11;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 12;
+UPDATE Journey SET Vehicle_Registration_Number = 'GF19 VCU' WHERE Journey_ID = 13;
+UPDATE Journey SET Vehicle_Registration_Number = 'GF19 VCU' WHERE Journey_ID = 14;
+UPDATE Journey SET Vehicle_Registration_Number = 'CL20 BVO' WHERE Journey_ID = 15;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 16;
+UPDATE Journey SET Vehicle_Registration_Number = 'AV21 JDX' WHERE Journey_ID = 17;
+UPDATE Journey SET Vehicle_Registration_Number = 'RJ68 UST' WHERE Journey_ID = 18;
+UPDATE Journey SET Vehicle_Registration_Number = 'CL20 BVO' WHERE Journey_ID = 19;
+UPDATE Journey SET Vehicle_Registration_Number = 'GF19 VCU' WHERE Journey_ID = 20;
+UPDATE Journey SET Vehicle_Registration_Number = 'OE19 YTB' WHERE Journey_ID = 21;
+UPDATE Journey SET Vehicle_Registration_Number = 'RJ68 UST' WHERE Journey_ID = 22;
+UPDATE Journey SET Vehicle_Registration_Number = 'LD72 YKM' WHERE Journey_ID = 23;
+UPDATE Journey SET Vehicle_Registration_Number = 'LD72 YKM' WHERE Journey_ID = 24;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 25;
+UPDATE Journey SET Vehicle_Registration_Number = 'MT22 HLR' WHERE Journey_ID = 26;
+UPDATE Journey SET Vehicle_Registration_Number = 'AV21 JDX' WHERE Journey_ID = 27;
+UPDATE Journey SET Vehicle_Registration_Number = 'OE19 YTB' WHERE Journey_ID = 28;
+UPDATE Journey SET Vehicle_Registration_Number = 'HG72 BKA' WHERE Journey_ID = 29;
+UPDATE Journey SET Vehicle_Registration_Number = 'HG72 BKA' WHERE Journey_ID = 30;
+UPDATE Journey SET Vehicle_Registration_Number = 'CL20 BVO' WHERE Journey_ID = 31;
+UPDATE Journey SET Vehicle_Registration_Number = 'RJ68 UST' WHERE Journey_ID = 32;
+UPDATE Journey SET Vehicle_Registration_Number = 'MT22 HLR' WHERE Journey_ID = 33;
+UPDATE Journey SET Vehicle_Registration_Number = 'AV21 JDX' WHERE Journey_ID = 34;
+UPDATE Journey SET Vehicle_Registration_Number = 'HG72 BKA' WHERE Journey_ID = 35;
+UPDATE Journey SET Vehicle_Registration_Number = 'OE19 YTB' WHERE Journey_ID = 36;
+UPDATE Journey SET Vehicle_Registration_Number = 'LD72 YKM' WHERE Journey_ID = 37;
+UPDATE Journey SET Vehicle_Registration_Number = 'KM70 RZE' WHERE Journey_ID = 38;
+UPDATE Journey SET Vehicle_Registration_Number = 'YP23 LJD' WHERE Journey_ID = 39;
+UPDATE Journey SET Vehicle_Registration_Number = 'GF19 VCU' WHERE Journey_ID = 40;
+
+
+/*---Update Customer Card Infomration---*/
+UPDATE Customer
+SET Card_Number = '4929 0012 5567 8821', Card_Expiration_Date = '05/27', Card_CVV = '384'
+WHERE Cust_ID = 'CUST001';
+UPDATE Customer
+SET Card_Number = '4532 7719 0044 1298', Card_Expiration_Date = '11/26', Card_CVV = '932'
+WHERE Cust_ID = 'CUST002';
+UPDATE Customer
+SET Card_Number = '4716 9032 1188 5507', Card_Expiration_Date = '03/28', Card_CVV = '521'
+WHERE Cust_ID = 'CUST003';
+UPDATE Customer
+SET Card_Number = '4485 6620 3377 9044', Card_Expiration_Date = '08/29', Card_CVV = '147'
+WHERE Cust_ID = 'CUST004';
+UPDATE Customer
+SET Card_Number = '4539 1124 7755 3329', Card_Expiration_Date = '12/27', Card_CVV = '609'
+WHERE Cust_ID = 'CUST005';
+UPDATE Customer
+SET Card_Number = '4916 8890 2244 7710', Card_Expiration_Date = '02/29', Card_CVV = '873'
+WHERE Cust_ID = 'CUST006';
+UPDATE Customer
+SET Card_Number = '4556 3301 9988 7245', Card_Expiration_Date = '07/26', Card_CVV = '254'
+WHERE Cust_ID = 'CUST007';
+UPDATE Customer
+SET Card_Number = '4024 8800 1199 6682', Card_Expiration_Date = '09/28', Card_CVV = '318'
+WHERE Cust_ID = 'CUST008';
+UPDATE Customer
+SET Card_Number = '4480 5599 6622 1403', Card_Expiration_Date = '01/30', Card_CVV = '740'
+WHERE Cust_ID = 'CUST009';
+UPDATE Customer
+SET Card_Number = '4713 0049 8855 9206', Card_Expiration_Date = '06/26', Card_CVV = '566'
+WHERE Cust_ID = 'CUST010';
+
+/*--Update Journey Table--*/
+UPDATE Journey
+SET Cust_Rating = (
+    SELECT ROUND(AVG(Rating), 2)
+    FROM Rating
+    WHERE Rating.Journey_ID = Journey.Journey_ID
+      AND Rating.User_Role = 'Driver'
+)
+WHERE Journey_ID IN (
+    SELECT Journey_ID
+    FROM Rating
+    WHERE User_Role = 'Driver'
+);
+UPDATE Journey
+SET Driver_Rating = (
+    SELECT ROUND(AVG(Rating), 2)
+    FROM Rating
+    WHERE Rating.Journey_ID = Journey.Journey_ID
+      AND Rating.User_Role = 'Customer'
+)
+WHERE Journey_ID IN (
+    SELECT Journey_ID
+    FROM Rating
+    WHERE User_Role = 'Customer'
+);
+
+/*--Update Customer Table--*/
+UPDATE Customer
+SET Cust_Avg_Rate = (
+    SELECT ROUND(AVG(j.Cust_Rating), 2)
+    FROM Journey j
+    WHERE j.Cust_ID = Customer.Cust_ID
+)
+WHERE Cust_ID IN (
+    SELECT Cust_ID
+    FROM Journey
+    WHERE Cust_Rating IS NOT NULL
+);
+
+/*--Update Driver Table--*/
+UPDATE Driver
+SET Driver_Avg_Rate = (
+    SELECT ROUND(AVG(j.Driver_Rating), 2)
+    FROM Journey j
+    WHERE j.Driver_ID = Driver.Driver_ID
+)
+WHERE Driver_ID IN (
+    SELECT Driver_ID
+    FROM Journey
+    WHERE Driver_Rating IS NOT NULL
+);
+</sql><sql name="Task 4 a">SELECT d.Driver_Fname ||' '|| d.Driver_Lname AS &quot;Driver Name&quot;, COUNT(j.Journey_ID) AS &quot;No. of Journeys&quot;
+FROM Driver d
+INNER JOIN Journey j ON (d.Driver_ID = j.Driver_ID)
+WHERE j.Driver_Rating &gt;= 4.5
+GROUP BY d.Driver_Fname, d.Driver_Lname
+ORDER BY COUNT(j.Journey_ID) DESC
+LIMIT 5;
+</sql><sql name="Task 4 b">SELECT c.Cust_Fname ||' '|| c.Cust_Lname AS &quot;Customer Name&quot;, COUNT(j.Journey_ID) AS &quot;No. of Journeys&quot;, AVG(p.Cost_Of_Trip) AS &quot;Average Spending&quot;
+FROM Customer c
+INNER JOIN Journey j ON (c.Cust_ID = j.Cust_ID)
+INNER JOIN Payment p ON (j.Journey_ID = p.Journey_ID)
+GROUP BY c.Cust_Fname, c.Cust_Lname
+HAVING AVG(p.Cost_Of_Trip) &gt;= 100.00 AND MIN(j.Cust_Rating) = 5
+ORDER BY COUNT(j.Journey_ID) DESC
+LIMIT 5;
+</sql><current_tab id="2"/></tab_sql></sqlb_project>
